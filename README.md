@@ -1,16 +1,27 @@
 OLWA SOLOMON 23-U-1647-GCS-PS
+
 AN_AUTOMATED_TANK_PROJECT
+
 _**MATERIALS AND TOOLS USED**__
-ESP32
+
+Arduino Uno
+
 Ultrasonic Sensor (e.g., HC-SR04)
+
 Relay Module
+
 Water Pump
+
 Three LEDs (Red, Yellow, Green)
+
 Resistors (for the LEDs, typically 220 ohms)
+
 Power Supply
+
 Wiring:
+
 Connect the VCC and GND of the ultrasonic sensor to the 5V and GND of the ESP32.
-\
+
 Connect the Trig pin of the ultrasonic sensor to GPIO 23 of the ESP32.
 
 Connect the Echo pin of the ultrasonic sensor to GPIO 22 of the ESP32.
