@@ -71,4 +71,5 @@ Ensure proper power supply and wiring to avoid damaging the components.
 
 You may need to calibrate the ultrasonic sensor for accurate distance measurements.
 
-This code provides a basic framework for an automated water tank control system with LED indicators for different water levels. You can expand it with additional features like Wi-Fi connectivity, remote monitoring, and more sophisticated control logic as needed.
+This code provides a basic framework for an automated water tank control system with LED indicators for different water levels.
+You can expand it with additional features like Wi-Fi connectivity, remote monitoring, and more sophisticated control logic as needed.
