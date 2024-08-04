@@ -1,20 +1,23 @@
-// Define the pins for the sensors, LEDs, buzzer, and motor
-const int waterSensorPin = A0; // Analog pin for water level sensor
+// Define pin numbers
+const int buzzerPin = 8;
 const int redLedPin = 2;
-const int greenLedPin = 3;
-const int buzzerPin = 4;
-const int motorPin = 5;
+const int yellowLedPin = 3;
+const int greenLedPin = 4;
+const int pumpPin = 9;
+const int waterSensorPin = A0;
 
-// Define the water level thresholds
-const int lowLevel = 200; // Adjust this value based on your sensor's output
-const int maxLevel = 600; // Adjust this value based on your sensor's output
+// Define water level thresholds (adjust these values based on your sensor)
+const int lowLevelThreshold = 100;
+const int minLevelThreshold = 300;
+const int maxLevelThreshold = 700;
 
 void setup() {
-  // Initialize the pins as outputs
-  pinMode(redLedPin, OUTPUT);
-  pinMode(greenLedPin, OUTPUT);
+  // Initialize pins as outputs
   pinMode(buzzerPin, OUTPUT);
-  pinMode(motorPin, OUTPUT);
+  pinMode(redLedPin, OUTPUT);
+  pinMode(yellowLedPin, OUTPUT);
+  pinMode(greenLedPin, OUTPUT);
+  pinMode(pumpPin, OUTPUT);
 
   // Initialize serial communication for debugging
   Serial.begin(9600);
@@ -28,23 +31,37 @@ void loop() {
   Serial.print("Water Level: ");
   Serial.println(waterLevel);
 
-  // Check the water level and control the LEDs, buzzer, and motor accordingly
-  if (waterLevel < lowLevel) {
-    // Water level is low
+  // Determine the water level and control the LEDs, buzzer, and pump
+  if (waterLevel < lowLevelThreshold) {
     digitalWrite(redLedPin, HIGH);
+    digitalWrite(yellowLedPin, LOW);
     digitalWrite(greenLedPin, LOW);
-    tone(buzzerPin, 1000); // Sound the buzzer
-    digitalWrite(motorPin, HIGH); // Turn on the motor to open the tap
-    Serial.println("Water level is low");
-  } else if (waterLevel >= maxLevel) {
-    // Water level is at the maximum
+    digitalWrite(buzzerPin, HIGH); // Buzzer on for low level
+    digitalWrite(pumpPin, HIGH); // Turn on the pump
+    Serial.println("Low water level");
+  } else if (waterLevel < minLevelThreshold) {
     digitalWrite(redLedPin, LOW);
+    digitalWrite(yellowLedPin, HIGH);
+    digitalWrite(greenLedPin, LOW);
+    digitalWrite(buzzerPin, LOW); // Buzzer off
+    digitalWrite(pumpPin, HIGH); // Turn on the pump
+    Serial.println("Water at minimum");
+  } else if (waterLevel < maxLevelThreshold) {
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(yellowLedPin, LOW);
     digitalWrite(greenLedPin, HIGH);
-    noTone(buzzerPin); // Turn off the buzzer
-    digitalWrite(motorPin, LOW); // Turn off the motor to close the tap
-    Serial.println("Water level is at maximum");
+    digitalWrite(buzzerPin, LOW); // Buzzer off
+    digitalWrite(pumpPin, LOW); // Turn off the pump
+    Serial.println("Water at maximum");
+  } else {
+    digitalWrite(redLedPin, LOW);
+    digitalWrite(yellowLedPin, LOW);
+    digitalWrite(greenLedPin, LOW);
+    digitalWrite(buzzerPin, LOW); // Buzzer off for maximum level
+    digitalWrite(pumpPin, LOW); // Turn off the pump
+    Serial.println("Water at maximum");
   }
 
-  // Delay for a short period before checking the water level again
+  // Delay for stability
   delay(1000);
 }
